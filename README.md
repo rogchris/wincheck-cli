@@ -16,7 +16,7 @@ Die Demo nutzt feste Beispielwerte. Mit der mitgelieferten Konfiguration meldet 
 dotnet run --project src/WinCheck
 ```
 
-`settings.json` enthält Mindestfreiplatz in Prozent und die ausgewählten Dienste. `--config` und `--output` überschreiben die Pfade. Ein gestoppter bedarfsgesteuerter Dienst kann beabsichtigt sein. Die Prüfergebnisse dienen der Diagnose.
+`settings.json` enthält Mindestfreiplatz in Prozent und die ausgewählten Dienste. `--config` und `--output` überschreiben die Pfade. Die Standardkonfiguration prüft EventLog und LanmanWorkstation anhand ihrer Windows-Dienstnamen. Laufende Dienste ergeben OK. Andere Status ergeben WARN. Fehlende oder nicht lesbare Dienste ergeben ERROR. Ein gestoppter bedarfsgesteuerter Dienst kann beabsichtigt sein. Die Prüfergebnisse dienen der Diagnose.
 
 | Exitcode | Bedeutung |
 |---|---|
@@ -32,3 +32,5 @@ Der reale Bericht enthält unter anderem den Rechnernamen und lokale Zustände. 
 
 
 [Beispielbericht](examples/demo.json) · [MIT-Lizenz](LICENSE)
+
+[Release Notes](RELEASE-NOTES.md) · [Drittanbieterhinweise](THIRD-PARTY-NOTICES.md)
