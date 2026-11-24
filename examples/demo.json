@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-01-01T12:00:00+00:00",
+  "computer": "DEMO-PC",
+  "results": [
+    {
+      "name": "C:\\",
+      "status": "OK",
+      "detail": "100.0 GiB frei (20.0 %), Grenze: 15 %"
+    },
+    {
+      "name": "D:\\",
+      "status": "WARN",
+      "detail": "5.0 GiB frei (5.0 %), Grenze: 15 %"
+    },
+    {
+      "name": "EventLog",
+      "status": "OK",
+      "detail": "Status: Running (Beispiel)"
+    },
+    {
+      "name": "LanmanWorkstation",
+      "status": "OK",
+      "detail": "Status: Running (Beispiel)"
+    }
+  ],
+  "exitCode": 1
+}

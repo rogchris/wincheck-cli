@@ -1,0 +1,36 @@
+name: Build und Tests
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Abhängigkeiten prüfen
+        run: dotnet restore tests/WinCheck.Tests --locked-mode -p:NuGetAuditMode=all -warnaserror:NU1903,NU1904
+      - name: Tests ausführen
+        run: dotnet test tests/WinCheck.Tests --configuration Release --no-restore
+      - name: Demo prüfen
+        shell: pwsh
+        run: |
+          dotnet run --project src/WinCheck --configuration Release --no-build -- --demo --output reports/demo.json
+          if ($LASTEXITCODE -ne 1) { throw "Die Demo muss eine Warnung melden." }
+          $report = Get-Content reports/demo.json -Raw | ConvertFrom-Json
+          if ($report.computer -ne 'DEMO-PC' -or $report.exitCode -ne 1) { throw "Demo-Bericht ist ungültig." }
+          exit 0
+      - name: Windows-Prüfung ausführen
+        shell: pwsh
+        run: |
+          dotnet run --project src/WinCheck --configuration Release --no-build -- --output reports/windows.json
+          $code = $LASTEXITCODE
+          if ($code -notin @(0, 1)) { throw "Windows-Prüfung fehlgeschlagen: $code" }
+          $report = Get-Content reports/windows.json -Raw | ConvertFrom-Json
+          if ($report.computer -eq 'DEMO-PC' -or $report.results.Count -lt 3) { throw "Systembericht ist unvollständig." }
+          exit 0

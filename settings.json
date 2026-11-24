@@ -1,0 +1,4 @@
+{
+  "minimumFreePercent": 15,
+  "services": ["EventLog", "LanmanWorkstation"]
+}
