@@ -1,8 +1,5 @@
 # WinCheck 1.0.0
 
-- Prüft freien Speicherplatz und ausgewählte Windows-Dienste.
-- Liefert strukturierte JSON-Berichte und Rückgabecodes für Skripte.
-- Demomodus mit festem Beispieldatensatz und reproduzierbarer Warnung.
-- Locked Restore, Windows-Workflow und xUnit-Tests.
+First public source release. The CLI checks free disk space and selected Windows services. It writes a local JSON report and returns an exit code that scripts can use.
 
-Die erste öffentliche Version ist als Quellcode-Release vorbereitet.
+The synthetic demo produces a warning and exits with code 1. Windows CI runs locked restore, xUnit tests, the demo and a system check.

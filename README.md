@@ -1,36 +1,39 @@
 # WinCheck
 
-WinCheck ist ein C#/.NET-10-Kommandozeilenprogramm für zwei wiederkehrende Windows-Prüfungen. Es meldet knappen Speicherplatz und prüft, ob ausgewählte Dienste laufen. Ergebnisse stehen in der Konsole und in einem lokalen JSON-Bericht.
+[English](README.en.md)
 
-## Demo und Systemlauf
+WinCheck ist ein Kommandozeilenprogramm in C# für .NET 10. Es prüft den freien Speicherplatz und den Status ausgewählter Windows-Dienste. Die Ergebnisse erscheinen in der Konsole und in einem lokalen JSON-Bericht. Ein Exitcode macht das Ergebnis in Skripten auswertbar.
 
-Vom Repository-Stamm aus mit .NET 10:
+WinCheck liest den aktuellen Zustand des Rechners. Es startet keine Dienste, ändert keine Systemeinstellungen und führt keine Reparaturen aus.
+
+## Demo ausprobieren
+
+Die Demo vom Repository-Stamm aus mit dem .NET 10 SDK starten.
 
 ```powershell
 dotnet run --project src/WinCheck -- --demo --output reports/demo.json
 ```
 
-Die Demo nutzt feste Beispielwerte. Mit der mitgelieferten Konfiguration meldet sie absichtlich eine Warnung und endet mit Exitcode 1. Auf Windows liefert der Aufruf ohne `--demo` reale Daten.
+Mit den mitgelieferten Einstellungen meldet die Demo anhand fester Beispieldaten eine Warnung und liefert Exitcode 1. [JSON-Beispielbericht](examples/demo.json)
+
+## Auf Windows ausführen
 
 ```powershell
 dotnet run --project src/WinCheck
 ```
 
-`settings.json` enthält Mindestfreiplatz in Prozent und die ausgewählten Dienste. `--config` und `--output` überschreiben die Pfade. Die Standardkonfiguration prüft EventLog und LanmanWorkstation anhand ihrer Windows-Dienstnamen. Laufende Dienste ergeben OK. Andere Status ergeben WARN. Fehlende oder nicht lesbare Dienste ergeben ERROR. Ein gestoppter bedarfsgesteuerter Dienst kann beabsichtigt sein. Die Prüfergebnisse dienen der Diagnose.
+`settings.json` legt den Mindestfreiplatz und die zu prüfenden Dienstnamen fest. Standardmäßig sind EventLog und LanmanWorkstation enthalten. Mit `--config` oder `--output` lässt sich der jeweilige Pfad ändern. Ein gestoppter Dienst kann bei Bedarf automatisch starten. Fehlt ein Dienst oder ist sein Status nicht lesbar, meldet WinCheck einen Fehler.
 
 | Exitcode | Bedeutung |
 |---|---|
-| 0 | Prüfungen ohne Warnung oder Fehler |
+| 0 | Alle Prüfungen erfolgreich |
 | 1 | Mindestens eine Warnung |
-| 2 | Fehler bei Prüfung oder Ausführung |
+| 2 | Fehler bei einer Prüfung oder der Ausführung |
 
-## Tests und Berichte
+Reale Berichte können den Rechnernamen und lokale Systeminformationen enthalten. Nutze für öffentliche Beispiele den Demo-Bericht. Wähle einen neuen Ausgabepfad, wenn ältere Berichte erhalten bleiben sollen.
 
-`dotnet test tests/WinCheck.Tests` prüft unter anderem Schwellen, Konfiguration und Exitcodes. Der Windows-Workflow sieht zusätzlich einen Demo- und einen Systemlauf vor.
+## Tests und Lizenz
 
-Der reale Bericht enthält unter anderem den Rechnernamen und lokale Zustände. Für Beispiele den Demo-Bericht verwenden. Einen eigenen Ausgabepfad für jeden Lauf wählen, wenn frühere JSON-Berichte erhalten bleiben sollen.
+`dotnet test tests/WinCheck.Tests` prüft Einstellungen, Grenzwerte und Exitcodes. Die Windows-CI führt außerdem die Demo und eine Prüfung des Runner-Systems aus.
 
-
-[Beispielbericht](examples/demo.json) · [MIT-Lizenz](LICENSE)
-
-[Release Notes](RELEASE-NOTES.md) · [Drittanbieterhinweise](THIRD-PARTY-NOTICES.md)
+[Release Notes](RELEASE-NOTES.md) · [MIT-Lizenz](LICENSE) · [Drittanbieterhinweise](THIRD-PARTY-NOTICES.md)
